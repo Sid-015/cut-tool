@@ -1,5 +1,5 @@
-# cut-tool
-A Python script for a custom cut command line terminal tool.
+# wc-tool
+A Python script for a custom wc command line terminal tool.
 
 Allows the following options via command line terminal:
 ./mwc <-option> <filename>
