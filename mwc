@@ -1,0 +1,89 @@
+#!/Users/macbook/anaconda3/bin/python
+
+import sys
+import os
+
+
+def c_function(f):
+    file_size = os.stat(f.fileno()).st_size
+    return file_size
+
+
+def l_function(f):
+    c = len(f)
+    return c
+
+
+def w_function(f):
+    count = 0
+    for line in f:
+        words = line.split()
+        for word in words:
+            if word == "\n" or word == "":
+                continue
+            count += 1
+    return count
+
+
+def m_function(f):
+    count = 0
+    for line in f:
+        for ch in line:
+            count += 1
+        count += 1
+    return count
+
+
+def mwc(f, arg, arg2):
+    try:
+        if arg == "-c":
+            c = c_function(f)
+            if arg2:
+                print(f"{c} {arg2}")
+            else:
+                print(f"{c}")
+        elif arg == "-l":
+            f_content = f.readlines()
+            l = l_function(f_content)
+            if arg2:
+                print(f"{l} {arg2}")
+            else:
+                print(f"{l}")
+        elif arg == "-w":
+            f_content = f.readlines()
+            w = w_function(f_content)
+            if arg2:
+                print(f"{w} {arg2}")
+            else:
+                print(f"{w}")
+        elif arg == "-m":
+            f_content = f.readlines()
+            m = m_function(f_content)
+            if arg2:
+                print(f"{m} {arg2}")
+            else:
+                print(f"{m}")
+        else:
+            c = c_function(f)
+            f_content = f.readlines()
+            l = l_function(f_content)
+            w = w_function(f_content)
+            if arg2:
+                print(f"{l} {w} {c} {arg2}")
+            else:
+                print(f"{l} {w} {c}")
+    except FileNotFoundError:
+        print("Invalid File Path")
+
+
+if sys.stdin.isatty():
+    arguments = sys.argv[1:]
+    with open(arguments[-1], "r") as f:
+        mwc(f, arguments[0], arguments[-1])
+else:
+    file = sys.stdin
+    arg = sys.argv[1:]
+    if len(arg) == 1:
+        mwc(file, arg[0], None)
+    else:
+        mwc(file, None, None)
